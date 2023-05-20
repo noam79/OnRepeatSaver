@@ -13,6 +13,9 @@
 
     <ItemGroup>
       <None Remove="Properties\launchSettings.json" />
+      <None Update="client_id.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
