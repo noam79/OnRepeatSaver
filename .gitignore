@@ -352,3 +352,4 @@ MigrationBackup/
 .idea/
 
 **/credentials.json
+**/client_id.txt
