@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OnRepeatSaver.Configuration;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using static SpotifyAPI.Web.Scopes;
