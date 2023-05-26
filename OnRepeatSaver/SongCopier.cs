@@ -6,8 +6,6 @@ public class SongCopier
 {
     public static async Task CopySongsAsync(SpotifyClient client, string sourcePlaylistId, string targetPlaylistId)
     {
-        // TODO: only add distinct songs to avoid duplications.
-
         var sourcePlaylistSongsUris = (await client.PaginateAll(await client.Playlists.GetItems(sourcePlaylistId)))
             .Select(playlistTrack => ((FullTrack)playlistTrack.Track).Uri);
 
