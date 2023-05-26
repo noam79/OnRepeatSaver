@@ -19,6 +19,7 @@ public class SongCopier
 
         if (trackUrisToAdd.Count is 0)
         {
+            Console.WriteLine("No Songs To Save Found");
             return;
         }
 
