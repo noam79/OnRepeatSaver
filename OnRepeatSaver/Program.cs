@@ -17,7 +17,7 @@ else
 async Task CopySongs()
 {
     var client = await authenticator.GetSpotifyClient();
-    await SongCopier.CopySongsAsync(client, "37i9dQZF1Epkozm1fivAi8", "1bhVX24cBQC1YeN5kuljEp");
+    await SongCopier.CopySongsAsync(client, args[0], args[1]);
 }
 
 Console.ReadLine();
