@@ -1,4 +1,5 @@
 using OnRepeatSaver;
+using OnRepeatSaver.Configuration;
 
 var clientId = await File.ReadAllTextAsync(ConfigurationPaths.ClientId);
 var authenticator = new Authenticator(clientId);
