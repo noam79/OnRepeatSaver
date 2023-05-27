@@ -17,7 +17,14 @@ else
 async Task CopySongs()
 {
     var client = await authenticator.GetSpotifyClient();
-    await SongCopier.CopySongsAsync(client, args[0], args[1]);
+    try
+    {
+        await SongCopier.CopySongsAsync(client, args[0], args[1]);
+    }
+    catch (IndexOutOfRangeException)
+    {
+        Console.WriteLine("No source/target playlist ids given as command line arguments.");
+    }
 }
 
 Console.ReadLine();

@@ -353,3 +353,5 @@ MigrationBackup/
 
 **/credentials.json
 **/client_id.txt
+
+.run/
