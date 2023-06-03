@@ -355,3 +355,5 @@ MigrationBackup/
 **/client_id.txt
 
 .run/
+
+log.txt

@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MultiLogger" Version="1.0.2" />
         <PackageReference Include="SpotifyAPI.Web" Version="7.0.0" />
         <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
     </ItemGroup>
