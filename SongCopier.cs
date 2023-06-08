@@ -4,30 +4,31 @@ namespace OnRepeatSaver;
 
 public static class SongCopier
 {
-    public static async Task<int> CopySongsAsync(SpotifyClient client, string sourcePlaylistId, string targetPlaylistId)
+    public static async Task<IEnumerable<FullTrack>> CopySongsAsync(SpotifyClient client, string sourcePlaylistId, string targetPlaylistId)
     {
-        var sourcePlaylistSongsUris = (await client.PaginateAll(await client.Playlists.GetItems(sourcePlaylistId)))
-            .Select(playlistTrack => ((FullTrack)playlistTrack.Track).Uri);
+        var sourcePlaylistTracks = (await client.PaginateAll(await client.Playlists.GetItems(sourcePlaylistId)))
+            .Select(x => (FullTrack)x.Track);
 
-        var targetPlaylistSongsUris = (await client.PaginateAll(await client.Playlists.GetItems(targetPlaylistId)))
-            .Select(playlistTrack => ((FullTrack)playlistTrack.Track).Uri)
+        var targetPlaylistTracks = (await client.PaginateAll(await client.Playlists.GetItems(targetPlaylistId)))
+            .Select(x => (FullTrack)x.Track)
             .ToList();
 
-        var trackUrisToAdd = sourcePlaylistSongsUris
-            .Where(trackUri => !targetPlaylistSongsUris.Contains(trackUri))
-            .ToList();
+        var tracksToAdd = GetTracksToAdd(sourcePlaylistTracks, targetPlaylistTracks).ToList();
 
-        if (trackUrisToAdd.Count is 0)
+        if (tracksToAdd.Count is 0)
         {
-            return 0;
+            return Enumerable.Empty<FullTrack>();
         }
 
-        var addPlaylistItemsRequest = new PlaylistAddItemsRequest(trackUrisToAdd);
+        var addPlaylistItemsRequest = new PlaylistAddItemsRequest((IList<string>)tracksToAdd.Select(track => track.Uri));
 
-        await client.Playlists.AddItems(
-            targetPlaylistId,
-            addPlaylistItemsRequest);
+        await client.Playlists.AddItems(targetPlaylistId, addPlaylistItemsRequest);
+        return tracksToAdd;
+    }
 
-        return trackUrisToAdd.Count;
+    private static IEnumerable<FullTrack> GetTracksToAdd(IEnumerable<FullTrack> sourcePlaylistTracks, List<FullTrack> targetPlaylistTracks)
+    {
+        return sourcePlaylistTracks.Where(sourceTrack =>
+            !targetPlaylistTracks.Exists(targetTrack => targetTrack.Uri == sourceTrack.Uri));
     }
 }

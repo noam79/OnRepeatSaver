@@ -21,8 +21,8 @@ async Task CopySongs()
     
     try
     {
-        var copiedSongsCount = await SongCopier.CopySongsAsync(client, args[0], args[1]);
-        Logger.WriteLine($"Copied {copiedSongsCount} songs");
+        var copiedSongs = await SongCopier.CopySongsAsync(client, args[0], args[1]);
+        Logger.WriteLine($"Copied {copiedSongs.Count()} songs: {string.Join(",", copiedSongs)}");
     }
     catch (IndexOutOfRangeException)
     {
