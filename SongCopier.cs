@@ -2,9 +2,9 @@
 
 namespace OnRepeatSaver;
 
-public class SongCopier
+public static class SongCopier
 {
-    public static async Task CopySongsAsync(SpotifyClient client, string sourcePlaylistId, string targetPlaylistId)
+    public static async Task<int> CopySongsAsync(SpotifyClient client, string sourcePlaylistId, string targetPlaylistId)
     {
         var sourcePlaylistSongsUris = (await client.PaginateAll(await client.Playlists.GetItems(sourcePlaylistId)))
             .Select(playlistTrack => ((FullTrack)playlistTrack.Track).Uri);
@@ -19,8 +19,7 @@ public class SongCopier
 
         if (trackUrisToAdd.Count is 0)
         {
-            Console.WriteLine("No Songs To Save Found");
-            return;
+            return 0;
         }
 
         var addPlaylistItemsRequest = new PlaylistAddItemsRequest(trackUrisToAdd);
@@ -29,6 +28,6 @@ public class SongCopier
             targetPlaylistId,
             addPlaylistItemsRequest);
 
-        Console.WriteLine($"Added {trackUrisToAdd.Count} Songs To Playlist");
+        return trackUrisToAdd.Count;
     }
 }
