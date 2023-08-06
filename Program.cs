@@ -18,11 +18,12 @@ else
 async Task CopySongs()
 {
     var client = await authenticator.GetSpotifyClient();
-    
+
     try
     {
-        var copiedSongsCount = await SongCopier.CopySongsAsync(client, args[0], args[1]);
-        Logger.WriteLine($"Copied {copiedSongsCount} songs");
+        var copiedSongs = (await SongCopier.CopySongsAsync(client, args[0], args[1])).ToList();
+        Logger.WriteLine($"Copied {copiedSongs.Count} songs");
+        copiedSongs.ForEach(song => Logger.WriteLine(song.Name));
     }
     catch (IndexOutOfRangeException)
     {
