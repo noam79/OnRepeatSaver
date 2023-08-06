@@ -20,7 +20,7 @@ public static class SongCopier
             return Enumerable.Empty<FullTrack>();
         }
 
-        var addPlaylistItemsRequest = new PlaylistAddItemsRequest((IList<string>)tracksToAdd.Select(track => track.Uri));
+        var addPlaylistItemsRequest = new PlaylistAddItemsRequest(tracksToAdd.Select(track => track.Uri).ToList());
 
         await client.Playlists.AddItems(targetPlaylistId, addPlaylistItemsRequest);
         return tracksToAdd;
